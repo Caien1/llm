@@ -26,7 +26,7 @@ def word_freq_checker(filtered_text_stream:str)->dict:
     return dict(sorted(word_frequency.items(),key=lambda item:item[1],reverse=True))
 
 
-def pair_generator(tokens:dict)->dict:
+def max_freq_pair(tokens:dict)->str:
     pair_freq = dict()
     for token in tokens.keys():
         for i in range(len(token)):
@@ -38,37 +38,35 @@ def pair_generator(tokens:dict)->dict:
             else:
                 pair_freq[pair]=1
 
-    return dict(sorted(pair_freq.items(),key=lambda item:item[1],reverse=True))
+    return max(pair_freq.items(),key=lambda item:item[1])[0]
  
    
 text = fetch_data_sets("d_set.txt") 
 filtered_text_stream= text.replace('\n',' ') #cleaning up the newlines the 
 vocab = vocab_generator(filtered_text_stream)
 tokens = word_freq_checker(filtered_text_stream)
-pairs = pair_generator(tokens=tokens)
+pairs = max_freq_pair(tokens=tokens)
+print(pairs)
+# Tasks done till now
+#Gernrate Vocab
+# Make tokens of the words used in the d_set
+#Find out Max freq pairs
+#add max freq pair to vocab
 
-max_pair = next(iter(pairs))
-freq_max_pair = pairs[max_pair]
-vocab.append(max_pair)
+#TODO merge the pairs to reduce token sixe in a way
 
-#
+
 for token in tokens.keys():
-    for i in range(len(token)):
-        if max_pair[0] == token[i]:
-        
-            for i in range(len(max_pair)):
-                pass
-
-
-
+    for char in token:
+        if(char==pairs[0]):
+            str = "".join(token)
+            print(str)
         
 
         
 
-#print(max_pair,freq_max_pair,vocab)
 
 
-# print(pairs)
 
 
 
