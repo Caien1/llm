@@ -40,36 +40,46 @@ def max_freq_pair(tokens:dict)->str:
 
     return max(pair_freq.items(),key=lambda item:item[1])[0]
  
-   
+def merge_pairs(tokens:dict,pairs:str)->dict:
+
+    new_tokens = tokens.copy()
+
+    for token in tokens.keys():
+        for i in range(len(token)):
+            if( i==len(token)-1):
+                break
+            if( "".join((token[i],token[i+1]))==pairs):
+                new_token = tuple(list(token)[:i] +[pairs]+list(token[i+len(pairs):]))
+                value = new_tokens.pop(token)
+                new_tokens.update({new_token:value})
+
+    return dict(sorted(new_tokens.items(),key=lambda item:item[1],reverse=True))
+
+
 text = fetch_data_sets("d_set.txt") 
 filtered_text_stream= text.replace('\n',' ') #cleaning up the newlines the 
 vocab = vocab_generator(filtered_text_stream)
 tokens = word_freq_checker(filtered_text_stream)
 pairs = max_freq_pair(tokens=tokens)
 print(pairs)
+new_tokens= merge_pairs(tokens,pairs)
+
+vocab.append(pairs)
+
+
+    
+
+
+
+
+print(new_tokens,vocab,sep="\n")
 # Tasks done till now
 #Gernrate Vocab
 # Make tokens of the words used in the d_set
 #Find out Max freq pairs
 #add max freq pair to vocab
 
-#TODO merge the pairs to reduce token sixe in a way
+# merge the pairs to reduce token size in a way
 
-
-for token in tokens.keys():
-    for char in token:
-        if(char==pairs[0]):
-            str = "".join(token)
-            print(str)
-        
-
-        
-
-
-
-
-
-
-
-
-    
+#TODO(caien) Test for bugs it seems there are a few but not sure 
+#TODO()check for optimisation
